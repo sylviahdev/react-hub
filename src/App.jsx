@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TaskItem from "./components/TaskItem";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(() => {
+    const saved = localStorage.getItem("tasks");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [input, setInput] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <div className="app">
@@ -18,7 +26,7 @@ function App() {
 
         <button
           onClick={() => {
-            if (input.trim() === "") return;
+            if (!input.trim()) return;
             setTasks([...tasks, input]);
             setInput("");
           }}
@@ -28,6 +36,8 @@ function App() {
       </div>
 
       <ul>
+        {tasks.length === 0 && <p>No tasks yet 👀</p>}
+
         {tasks.map((task, index) => (
           <TaskItem
             key={index}
