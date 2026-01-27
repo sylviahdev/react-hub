@@ -6,24 +6,26 @@ function App() {
   const [input, setInput] = useState("");
 
   return (
-    <div>
+    <div className="app">
       <h1>Task Tracker</h1>
 
-      <input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Enter task"
-      />
+      <div className="input-row">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Enter task"
+        />
 
-      <button
-        onClick={() => {
-          if (input.trim() === "") return;
-          setTasks([...tasks, input]);
-          setInput("");
-        }}
-      >
-        Add Task
-      </button>
+        <button
+          onClick={() => {
+            if (input.trim() === "") return;
+            setTasks([...tasks, input]);
+            setInput("");
+          }}
+        >
+          Add
+        </button>
+      </div>
 
       <ul>
         {tasks.map((task, index) => (
