@@ -15,7 +15,8 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Task Tracker</h1>
+     <h1>Task Tracker</h1>
+<p className="subtitle">Simple React app by Sylviah</p>
 
       <div className="input-row">
         <input
@@ -36,7 +37,9 @@ function App() {
       </div>
 
       <ul>
-        {tasks.length === 0 && <p>No tasks yet 👀</p>}
+        {tasks.length === 0 && (
+  <p className="empty">No tasks yet 👀</p>
+)}
 
         {tasks.map((task, index) => (
           <TaskItem
