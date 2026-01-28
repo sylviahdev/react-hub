@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import TaskItem from "./components/TaskItem";
 
 function App() {
-  const [tasks, setTasks] = useState(() => {
-    const saved = localStorage.getItem("tasks");
-    return saved ? JSON.parse(saved) : [];
-  });
+const [tasks, setTasks] = useState(() => {
+  const saved = localStorage.getItem("tasks");
+  return saved ? JSON.parse(saved) : [];
+});
+
 
   const [input, setInput] = useState("");
 
@@ -28,7 +29,11 @@ function App() {
         <button
           onClick={() => {
             if (!input.trim()) return;
-            setTasks([...tasks, input]);
+           setTasks([
+  ...tasks,
+  { text: input, completed: false }
+]);
+
             setInput("");
           }}
         >
@@ -40,16 +45,32 @@ function App() {
         {tasks.length === 0 && (
   <p className="empty">No tasks yet 👀</p>
 )}
+{tasks.map((task, index) => (
+  <TaskItem
+    key={index}
+    task={task}
+    onToggle={() =>
+      setTasks(
+        tasks.map((t, i) =>
+          i === index
+            ? { ...t, completed: !t.completed }
+            : t
+        )
+      )
+    }
+    onEdit={(newText) =>
+      setTasks(
+        tasks.map((t, i) =>
+          i === index ? { ...t, text: newText } : t
+        )
+      )
+    }
+    onDelete={() =>
+      setTasks(tasks.filter((_, i) => i !== index))
+    }
+  />
+))}
 
-        {tasks.map((task, index) => (
-          <TaskItem
-            key={index}
-            task={task}
-            onDelete={() =>
-              setTasks(tasks.filter((_, i) => i !== index))
-            }
-          />
-        ))}
       </ul>
     </div>
   );
